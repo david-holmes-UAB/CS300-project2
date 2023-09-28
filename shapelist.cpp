@@ -9,18 +9,13 @@
 #include "include/gwindow.h"
 #include "shape.h"
 #include <iostream>
-#include <vector>
-
-ShapeList::ShapeList() {
-    std::vector<Shape *> shapes;
-    int size = shapes.size();
-}
+#include "include/vector.h"
 
 void ShapeList::moveToFront(Shape *sp) {
     int found = 0;
     int pos = 0;
-    for (Shape *s : shapes) {
-        if (*s == *sp) {
+    for (Shape *s : ShapeList()) {
+        if (s == sp) {
             found = 1;
             break;
         }
@@ -28,9 +23,11 @@ void ShapeList::moveToFront(Shape *sp) {
     }
 
     if (found == 1) {
-        Shape * temp = *sp;
-        shapes.erase(pos);
-        shapes.insert(shapes.begin(), *sp);
+        Shape * temp = sp;
+        // note: as this uses the stanford version of vector, erase isn't a
+        // method that exists. Instead, it uses "removeAt()"
+        ShapeList().removeAt(pos);
+        ShapeList().insert(0, sp);
     }
     else {
         std::cout << "Error: the input shape was not found in the list.\n\n";
@@ -38,9 +35,9 @@ void ShapeList::moveToFront(Shape *sp) {
 }
 
 void ShapeList::moveToBack(Shape *sp) {
-    nt found = 0;
-    for (Shape *s : shapes) {
-        if (*s == *sp) {
+    int found = 0;
+    for (Shape *s : ShapeList()) {
+        if (s == sp) {
             found = 1;
         }
     }
@@ -56,8 +53,8 @@ void ShapeList::moveToBack(Shape *sp) {
 
 
 
-void ShapeList::draw(GWindow & gw) {
-    for (Shape *sp : shapes) {
+void ShapeList::draw(GWindow & gw) const{
+    for (Shape *sp : ShapeList()) {
         sp->draw(gw);
     }
 }
