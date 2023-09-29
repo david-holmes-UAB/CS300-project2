@@ -119,7 +119,7 @@ void ShapeList::moveBackward(Shape *sp) {
 
 }
 
-Shape * getShapeAt(double x, double y) {
+Shape * ShapeList::getShapeAt(double x, double y) {
     Shape * sp = nullptr;
     for (Shape * s : ShapeList()) {
         if (s->contains(x, y)) {
